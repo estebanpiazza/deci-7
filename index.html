@@ -26,25 +26,62 @@
             </div>
             <div class="col-12">
                 <h2>Personalizar juego:</h2>
-                <input type="text" class="form-control" name="aniadir" placeholder="Escribe una categoria nueva" id="categoriaPersonalizada" style="width: 50vw; margin:auto;">
-                <button type="button" class="btn btn-primary" id="agregarCategoria" >Agregar categoría</button>
+                <input type="text" class="form-control" name="aniadir" placeholder="Escribe una categoria nueva"
+                    id="categoriaPersonalizada" style="width: 30vw;margin:0 auto; display: inline;">
+                <button type="button" class="btn btn-primary" id="agregarCategoria" style="margin-top:-5px!important;">Agregar categoría</button>
                 <br><button type="button" class="btn btn-danger" id="reinciar">Reiniciar lista de categorias</button>
-                <p>¿Como se juega? Cuando aparece la categoría tenes que nombrar 7 o más ejemplos sin repetir y sin decir "ehh" o cualquier otro sonido de pensamiento. </p>
+                <button type="button" class="btn btn-secondary" id="myInput"  data-bs-toggle="modal" data-bs-target="#exampleModal">Ver categorías</button>
+                <p>¿Como se juega? Cuando aparece la categoría tenes que nombrar 7 o más ejemplos sin repetir y sin
+                    decir "ehh" o cualquier otro sonido de pensamiento. </p>
             </div>
 
+  
+  <!-- Modal -->
+ 
+        </div>
+        <div class="footer"> Por Esteban Piazza
+            <br> <a href="https://github.com/estebanpiazza">Mi github</a>
+            <a href="https://linkedin.com/in/estebanpiazza">Mi linkedin</a>
+    
+            <a href="https://contacto-alpha.vercel.app" target="_blank">
+                Contacto</a>
         </div>
     </div>
 
-    <div class="footer"> Por Esteban Piazza 
-        <br> <a href="https://github.com/estebanpiazza">Mi github</a>
-        <a href="https://linkedin.com/in/estebanpiazza">Mi linkedin</a>
-  
-      <a href="https://contacto-alpha.vercel.app" target="_blank">
-        Contacto</a>
-    </div>
+    <div class="modal  fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Categorias</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="container-fluid">
+                    <div class="row">
+                        <div class="col">
+                            <p  id="porJugar">
+                            Por Jugar
+                        </p>
+                        </div>
+                        <div class="col" >
+                            <p id="yaJugadas">
+                            Ya jugadas
+                        </p>
+                        </div>
+                    </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    
 
 </body>
 <script>
+      let USADAS = []
     let CATEGORIAS = ["Nombres de hombre",
         "Nombres de mujer",
         "Ciudades de Europa",
@@ -75,7 +112,15 @@
         "Marcas de moda",
         "Instrumentos de laboratorio",
         "Plantas"];
-    const USADAS = []
+
+let yaJugadas=document.getElementById("yaJugadas")
+let porJugar = document.getElementById("porJugar")
+const myModal = document.getElementById('exampleModal')
+const myInput = document.getElementById('myInput')
+
+
+    
+  
     let bandera = true;
     let rollear = document.getElementById("rollear");
     let categoriaNueva = document.getElementById("categoriaPersonalizada");
@@ -84,22 +129,21 @@
     let reiniciar = document.getElementById("reinciar");
     let segundos = 60
     let timer = document.getElementById("timer")
+
     function agregarCategoriaAArray(elemento, array) {
-        if(categoriaNueva.value==""){
+        if (categoriaNueva.value == "") {
             Swal.fire({
                 title: "Categoría no valida",
                 text: "El campo no puede estar vacío",
             })
 
-        }else{
+        } else {
             array.push(elemento);
             console.log(array)
             return array;
-            
-            
-          
-        }     
-       
+
+    }
+
 
     }
 
@@ -114,29 +158,8 @@
     }
     function rollearCategoria() {
         if (CATEGORIAS.length == 0) {
-            categoriaAJugar.innerText = "No quedan categorías para jugar. Agrega nuevas o reinicia el juego."
-        } else {
-
-            let posicion = getRandomInt(CATEGORIAS.length)
-            console.log(posicion)
-            let proximo = CATEGORIAS.splice(posicion, 1)
-            console.log(proximo)
-            categoriaAJugar.innerText = proximo
-            return proximo
-        }
-
-    }
-    rollear.addEventListener("click", function () {
-        categoriaAJugar.value = rollearCategoria()
-        bandera = true
-        mostrarTiempoTranscurrido()
-        end = Date.now() + 60 * 1000
-    })
-
-
-    reiniciar.addEventListener("click", function () {
-   
-        let CATEGORIAS = ["Nombres de hombre",
+            categoriaAJugar.innerText = "No quedan categorías para jugar. Clic en el botón verde para reiniciar."
+            CATEGORIAS = ["Nombres de hombre",
         "Nombres de mujer",
         "Ciudades de Europa",
         "Ciudades de América",
@@ -166,18 +189,75 @@
         "Marcas de moda",
         "Instrumentos de laboratorio",
         "Plantas"];
-        console.log(CATEGORIAS)
+        USADAS = []
+        } else {
+
+            let posicion = getRandomInt(CATEGORIAS.length)
+            console.log(posicion)
+            let proximo = CATEGORIAS.splice(posicion, 1)
+            console.log(proximo)
+            USADAS.push(proximo)
+            categoriaAJugar.innerText = proximo
+            return proximo
+        }
+
+    }
+    rollear.addEventListener("click", function () {
+        categoriaAJugar.value = rollearCategoria()
+        bandera = true
+        mostrarTiempoTranscurrido()
+        end = Date.now() + 60 * 1000
+    })
+
+
+    reiniciar.addEventListener("click", function () {
         categoriaAJugar.innerText = "Click en el boton verde para empezar"
         timer.innerText = `Timer: 60 segundos`
         bandera = false
-
+        USADAS =[]
+        CATEGORIAS = ["Nombres de hombre",
+        "Nombres de mujer",
+        "Ciudades de Europa",
+        "Ciudades de América",
+        "Animales",
+        "Frutas y verduras",
+        "Países del mundo",
+        "Marcas de coches",
+        "Instrumentos musicales",
+        "Deportes",
+        "Cantantes famosos",
+        "Películas",
+        "Libros",
+        "Personajes de ficción",
+        "Juegos de mesa",
+        "Elementos químicos",
+        "Herramientas",
+        "Idiomas",
+        "Canciones",
+        "Platos típicos",
+        "Profesiones",
+        "Deportistas famosos",
+        "Ríos importantes",
+        "Montañas del mundo",
+        "Capitales de país",
+        "Videojuegos",
+        "Juguetes",
+        "Marcas de moda",
+        "Instrumentos de laboratorio",
+        "Plantas"]
     })
+
+
+    myInput.addEventListener("click",function(){
+    porJugar.innerHTML=`<h3>Restantes:</h3> ${CATEGORIAS}`
+    yaJugadas.innerHTML=`<h3>Ya jugadas:</h3> ${USADAS}`
+})
 
     let end = Date.now() + 60 * 1000; //Aqui tomamos el tiempo de cuando queremos que el contador termine (En 60 segundos a partir de ahora)
 
     function mostrarTiempoTranscurrido() {
         const tiempoTranscurrido = Math.floor((end - Date.now()) / 1000);
-        if (tiempoTranscurrido > 0 && bandera ==true) {
+        if (tiempoTranscurrido > 0 && bandera == true) {
             timer.innerText = `Tiempo: ${tiempoTranscurrido} segundos`
             //Programamos para que se revise de nuevo el tiempo transcurrido en 500ms
             setTimeout(mostrarTiempoTranscurrido, 500);
@@ -189,7 +269,7 @@
             end = Date.now() + 60 * 1000
         }
     }
-   
+
 
 
 
