@@ -31,6 +31,7 @@
                 <button type="button" class="btn btn-primary" id="agregarCategoria" style="margin-top:-5px!important;">Agregar categoría</button>
                 <br><button type="button" class="btn btn-danger" id="reinciar">Reiniciar lista de categorias</button>
                 <button type="button" class="btn btn-secondary" id="myInput"  data-bs-toggle="modal" data-bs-target="#exampleModal">Ver categorías</button>
+                <button type="button" class="btn btn-warning" id="vaciar">Vacíar lista </button>
                 <p>¿Como se juega? Cuando aparece la categoría tenes que nombrar 7 o más ejemplos sin repetir y sin
                     decir "ehh" o cualquier otro sonido de pensamiento. </p>
             </div>
@@ -129,7 +130,8 @@ const myInput = document.getElementById('myInput')
     let reiniciar = document.getElementById("reinciar");
     let segundos = 60
     let timer = document.getElementById("timer")
-
+    let vaciar = document.getElementById("vaciar"
+    
     function agregarCategoriaAArray(elemento, array) {
         if (categoriaNueva.value == "") {
             Swal.fire({
@@ -181,14 +183,11 @@ const myInput = document.getElementById('myInput')
         "Platos típicos",
         "Profesiones",
         "Deportistas famosos",
-        "Ríos importantes",
-        "Montañas del mundo",
         "Capitales de país",
         "Videojuegos",
         "Juguetes",
-        "Marcas de moda",
-        "Instrumentos de laboratorio",
-        "Plantas"];
+        "Marcas de ropa",
+        "Sabores de empanadas","Sabores de helado", "Bandas", "Mares/oceanos/ríos"];
         USADAS = []
         } else {
 
@@ -237,14 +236,11 @@ const myInput = document.getElementById('myInput')
         "Platos típicos",
         "Profesiones",
         "Deportistas famosos",
-        "Ríos importantes",
-        "Montañas del mundo",
         "Capitales de país",
         "Videojuegos",
         "Juguetes",
-        "Marcas de moda",
-        "Instrumentos de laboratorio",
-        "Plantas"]
+        "Marcas de ropa",
+        "Sabores de empanadas","Sabores de helado", "Bandas", "Mares/oceanos/ríos"];
     })
 
 
@@ -253,7 +249,7 @@ const myInput = document.getElementById('myInput')
     yaJugadas.innerHTML=`<h3>Ya jugadas:</h3> ${USADAS}`
 })
 
-    let end = Date.now() + 60 * 1000; //Aqui tomamos el tiempo de cuando queremos que el contador termine (En 60 segundos a partir de ahora)
+    let end = Date.now() + 30 * 1000; //Aqui tomamos el tiempo de cuando queremos que el contador termine (En 60 segundos a partir de ahora)
 
     function mostrarTiempoTranscurrido() {
         const tiempoTranscurrido = Math.floor((end - Date.now()) / 1000);
@@ -266,10 +262,13 @@ const myInput = document.getElementById('myInput')
                 title: "Sin tiempo",
                 text: "Se termino el tiempo",
             })
-            end = Date.now() + 60 * 1000
+            end = Date.now() + 30 * 1000
         }
     }
 
+    vaciar.addEventListener("click";function (){
+    CATEGORIAS = []
+    })
 
 
 
